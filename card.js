@@ -1,14 +1,17 @@
 
 
-function card(ID, status, x, y, visible, tab){
+function card(ID, status, x, y, visible, tabL, item){
   this.initialVisible = visible
   this.visible = visible
+  this.offset = createVector(0, 0)
   
-  this.tab = tab
+  this.tab = tabL
   
   if(this.visible){
-    console.log(true)
+
   }
+  
+  this.item = item
   
   this.lerpP = 1
   
@@ -20,7 +23,7 @@ function card(ID, status, x, y, visible, tab){
   
   this.held = false
   
-  this.lastHeld = false
+
   
   
   
@@ -36,8 +39,9 @@ function card(ID, status, x, y, visible, tab){
     imageMode(CENTER)
     if(this.held){
 
-      image(cardsImages[this.ID], this.location.x+offset.x, this.location.y+offset.y, 105*1.1, 175*1.1)
+      image(cardsImages[this.ID], this.location.x+offset.x, this.location.y+offset.y+this.offset.y, 105*1.1, 175*1.1)
     } else{
+      
 
       if(this.visible){
         if(!this.initialVisible){
@@ -70,8 +74,19 @@ function card(ID, status, x, y, visible, tab){
       }
       
     }
+    rectMode(CENTER)
     
+    noFill()
+    stroke(0, 255, 0)
+    strokeWeight(5)
 
+    if(false){
+    if(this.item==tab[tabL].length-1){
+      rect(this.baseLocation.x,this.baseLocation.y, this.cardSize.x, this.cardSize.y)
+    } else{
+      rect(this.baseLocation.x,this.baseLocation.y-this.cardSize.y/2+15, this.cardSize.x, 30)
+    }
+    }
     
 
   }
@@ -80,12 +95,21 @@ function card(ID, status, x, y, visible, tab){
   move = false
       
   if(mouseIsPressed){
-    if(press.x+this.cardSize.x/2>this.baseLocation.x&&press.x-this.cardSize.x/2<this.baseLocation.x&&press.y+this.cardSize.y/2>this.baseLocation.y&&press.y-this.cardSize.y/2<this.baseLocation.y&&this.lastHeld!=true){
-          heldCard = true
-          this.held = true
-          offset.x = this.baseLocation.x-press.x
-          offset.y = this.baseLocation.y-press.y
-      }
+    if(this.item!=tab[tabL].length-1){
+      if(press.x>this.baseLocation.x-this.cardSize.x/2&&press.x<this.baseLocation.x+this.cardSize.x/2&&press.y>this.baseLocation.y-this.cardSize.y/2&&press.y<this.baseLocation.y-this.cardSize.y/2+30&&this.lastHeld!=true){
+            heldCard = true
+            this.held = true
+            offset.x = this.baseLocation.x-press.x
+            offset.y = this.baseLocation.y-press.y
+        }
+  } else{
+    if(press.x>this.baseLocation.x-this.cardSize.x/2&&press.x<this.baseLocation.x+this.cardSize.x/2&&press.y>this.baseLocation.y-this.cardSize.y/2&&press.y<this.baseLocation.y+this.cardSize.y/2&&this.lastHeld!=true){
+            heldCard = true
+            this.held = true
+            offset.x = this.baseLocation.x-press.x
+            offset.y = this.baseLocation.y-press.y
+        }
+  }
   } else{
     if(this.held){
       heldCard = 0
@@ -93,11 +117,16 @@ function card(ID, status, x, y, visible, tab){
       
       for(let i = 0; i<7; i++){
 
-        if(this.location.x+this.cardSize.x/2>290+i*187&&this.location.x-this.cardSize.x/2<290+i*187){
-  
-          if(this.tab!=i){
+        
+        if(this.location.x+this.cardSize.x/2>290+i*187&&this.location.x-this.cardSize.x/2<290+i*187 && this.location.y+this.cardSize.y/2>663&&this.location.y-this.cardSize.y/2<663+200){
+
+            if(this.tab!=i){
+              
+               this.held = false
+
             return i
-          } console.log("HERE")
+            }
+          
           
       
 
