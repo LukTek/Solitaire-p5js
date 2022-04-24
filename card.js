@@ -112,17 +112,21 @@ function card(ID, status, x, y, visible, tabL, item){
   }
   } else{
     if(this.held){
-      heldCard = 0
+      
       
       
       for(let i = 0; i<7; i++){
 
         
-        if(this.location.x+this.cardSize.x/2>290+i*187&&this.location.x-this.cardSize.x/2<290+i*187 && this.location.y+this.cardSize.y/2>663&&this.location.y-this.cardSize.y/2<663+200){
+        if(this.location.x+this.cardSize.x/2>290+i*187&&this.location.x-this.cardSize.x/2<290+i*187){
 
             if(this.tab!=i){
+
+            this.held = false
               
-               this.held = false
+            heldCard = true
+              
+            this.lerpP = 0
 
             return i
             }
