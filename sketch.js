@@ -8,7 +8,7 @@ let initial = []
 
 let tab = [[], [], [], [], [], [], []]
 
-let windowSize = 0.5
+let windowSize = 0.8
 
 let mouseDown = false
 
@@ -28,7 +28,7 @@ let count = 0
   
 for(let i = 0; i<7; i++){
   for(let q = 0; q<i+1; q++){
-    tab[i].push(new card(initial[count], 'tab', 290+i*187, 663+q*30, q===i, i, q))
+    tab[i].push(new card(initial[count], 'tab', 290+i*187, 663+q*30, q==i, i, q))
     count++
   }
 }
@@ -49,7 +49,10 @@ for(let i = 0; i<7; i++){
 
 }
 
+counter = 0
+
 function draw() {
+
   background(220);
   imageMode(CORNER)
   scale(windowSize)
@@ -59,6 +62,8 @@ function draw() {
 
 
 heldCard = 0
+  
+moveAr = []
   
 for(let i = 0; i<7; i++){
   for(let q = tab[i].length-1; q>=0; q--){
@@ -86,28 +91,13 @@ for(let i = 0; i<7; i++){
 
       }
       
+      
+
+      
       if(move>=0){
-        
-        tab[move].push(new card(tab[i][tab[i].length-1].ID, 'tab', 290+move*187, 663+tab[move].length*30, true, move, tab[move].length))
-        
 
-        
-        
-        
-        tab[move][tab[move].length-1].location.x=tab[i][tab[i].length-1].location.x
-        tab[move][tab[move].length-1].location.y=tab[i][tab[i].length-1].location.y
-        
-
-        
-        tab[move][tab[move].length-1].lerpP=0
-
-
-        tab[i].pop()
-        if(tab[i].length>0){
-          tab[i][tab[i].length-1].visible = true
-        }
-
-        break
+        console.log(tab[heldCard[0]][heldCard[1]].location.y)
+        moveAr.push([heldCard, move])
       }
         
       
@@ -115,11 +105,74 @@ for(let i = 0; i<7; i++){
     
     
 
-      tab[i][q].show()
+
 
   }
   
 }
+  
+  if(moveAr.length>0){
+  if(tab[heldCard[0]][heldCard[1]].location.y+tab[heldCard[0]][heldCard[1]].cardSize.y/2<663){
+    console.log(true)
+   
+    
+  } else{
+      
+for(let f = moveAr.length-1; f>=0; f--){
+
+
+  
+  leng = tab[moveAr[f][0][0]].length-1
+  
+  console.log()
+
+
+tab[moveAr[f][1]].push(new card(tab[moveAr[f][0][0]][tab[moveAr[f][0][0]].length-f-1].ID, 'tab', 290+moveAr[f][1]*187, 663+(tab[moveAr[f][1]].length)*30, true, moveAr[f][1], tab[moveAr[f][1]].length))
+  
+tab[moveAr[f][1]][tab[moveAr[f][1]].length-1].location.x = tab[moveAr[f][0][0]][tab[moveAr[f][0][0]].length-f-1].location.x
+  
+tab[moveAr[f][1]][tab[moveAr[f][1]].length-1].location.y = tab[moveAr[f][0][0]][tab[moveAr[f][0][0]].length-f-1].location.y
+  
+tab[moveAr[f][1]][tab[moveAr[f][1]].length-1].lerpP = f/10
+  
+  
+
+
+  
+}
+  
+  
+for(let x = 0; x<moveAr.length; x++){
+  tab[moveAr[x][0][0]].pop()
+  
+}
+  
+  
+if(moveAr.length>0){
+  if(tab[moveAr[0][0][0]].length>0){
+  tab[moveAr[0][0][0]][tab[moveAr[0][0][0]].length-1].visible = true
+}
+}
+  
+  
+  }
+}
+
+
+
+  
+  
+  
+  
+  
+  
+  
+  
+  
+  
+
+
+  
   
 for(let i = 0; i<7; i++){
   for(let q = 0; q<tab[i].length; q++){
@@ -127,13 +180,21 @@ for(let i = 0; i<7; i++){
   }
 }
 
-
 if(heldCard.length>1){
   
-  for(let r = heldCard[1]; r<tab[heldCard[0]].length; r++){
+
+  for( r = heldCard[1]; r<tab[heldCard[0]].length; r++){
+  
   tab[heldCard[0]][r].show()
+  
+    
 
   }
+  
+
+  
+  counter = tab[heldCard[0]].length-heldCard[1]-1
+
 }
 
 }
