@@ -8,11 +8,13 @@ let initial = []
 
 let tab = [[], [], [], [], [], [], []]
 
-let windowSize = 0.8
+let foundation = [[], [], [], []]
+
 
 let mouseDown = false
 
 function setup() {
+  windowSize = windowWidth/1796
   press = createVector(0, 0)
   offset = createVector(0, 0)
   
@@ -34,7 +36,8 @@ for(let i = 0; i<7; i++){
 }
   
   
-
+foundation[0].push(new card(1, 'tab', 290+3*187, 360, true))
+    count++
   
   
   
@@ -44,7 +47,7 @@ for(let i = 0; i<7; i++){
 
   createCanvas(1796*windowSize, 1080*windowSize);
 
-
+  heldCard = 0
   
 
 }
@@ -52,7 +55,7 @@ for(let i = 0; i<7; i++){
 counter = 0
 
 function draw() {
-
+  windowSize = windowWidth/1796
   background(220);
   imageMode(CORNER)
   scale(windowSize)
@@ -61,16 +64,19 @@ function draw() {
   
 
 
-heldCard = 0
+
   
 moveAr = []
   
+  
+
+
 for(let i = 0; i<7; i++){
   for(let q = tab[i].length-1; q>=0; q--){
-    tab[i][q].offset.y = 0
+
     
-    
-    if(tab[i][q].held){
+    if(tab[i][q]){
+      if(tab[i][q].held){
       for(let a = q+1; a<tab[i].length; a++){
         tab[i][a].held = true
         tab[i][a].lerp = 0
@@ -78,6 +84,7 @@ for(let i = 0; i<7; i++){
         tab[i][a].location.y = mouseY/(1080*windowSize)*1080+(a-q)*30
 
       }
+    }
     }
     
 
@@ -93,11 +100,12 @@ for(let i = 0; i<7; i++){
       
       
 
-      
+      if(tab[i][q].lerpP==0){
       if(move>=0){
 
-        console.log(tab[heldCard[0]][heldCard[1]].location.y)
-        moveAr.push([heldCard, move])
+        moveAr.push([heldCard, move, tab[heldCard[0]][heldCard[1]].location.y])
+        
+      }
       }
         
       
@@ -110,13 +118,67 @@ for(let i = 0; i<7; i++){
   }
   
 }
+
+
+if(moveAr.length>0){
+  if(tab[moveAr[0][1]].length>0){
   
-  if(moveAr.length>0){
-  if(tab[heldCard[0]][heldCard[1]].location.y+tab[heldCard[0]][heldCard[1]].cardSize.y/2<663){
-    console.log(true)
-   
+  first = tab[heldCard[0]][heldCard[1]].ID%13+1
+  
+  sec = tab[moveAr[0][1]][tab[moveAr[0][1]].length-1].ID%13+1
+  console.log()
+  
+  if(first!=sec-1){
+        for(let k = 0; k<7; k++){
+      for(let l = 0; l<tab[k].length; l++){    
+
+        moveAr = []
+
+        tab[k][l].held = false
+      }
+    }
+  }
+
+}
+}
+  
+  
+for(let f = moveAr.length-1; f>=0; f--){
+  if(moveAr[f][2] <663-175/2){
     
-  } else{
+    
+    
+    if(moveAr.length>1){
+      console.log(true)
+    
+    for(let k = 0; k<7; k++){
+      for(let l = 0; l<tab[k].length; l++){    
+
+        moveAr = []
+
+        tab[k][l].held = false
+      }
+    }
+    
+    
+    break
+    
+    } else{
+      
+      
+      
+      
+      
+      
+      
+      
+    }
+  }
+
+  
+  
+}
+
       
 for(let f = moveAr.length-1; f>=0; f--){
 
@@ -124,7 +186,7 @@ for(let f = moveAr.length-1; f>=0; f--){
   
   leng = tab[moveAr[f][0][0]].length-1
   
-  console.log()
+
 
 
 tab[moveAr[f][1]].push(new card(tab[moveAr[f][0][0]][tab[moveAr[f][0][0]].length-f-1].ID, 'tab', 290+moveAr[f][1]*187, 663+(tab[moveAr[f][1]].length)*30, true, moveAr[f][1], tab[moveAr[f][1]].length))
@@ -155,11 +217,16 @@ if(moveAr.length>0){
 }
   
   
-  }
-}
+  
+  
+  
+  
+  
+  
 
 
 
+
   
   
   
@@ -168,8 +235,7 @@ if(moveAr.length>0){
   
   
   
-  
-  
+
 
 
   
@@ -179,6 +245,14 @@ for(let i = 0; i<7; i++){
     tab[i][q].show()
   }
 }
+  
+  
+for(let i = 0; i<4; i++){
+  for(let q = 0; q<foundation[i].length; q++){
+    foundation[i][q].show()
+  }
+}
+
 
 if(heldCard.length>1){
   
