@@ -7,6 +7,8 @@ function card(ID, status, x, y, visible, tabL, item){
   
   this.tab = tabL
   
+  
+  
   if(this.visible){
 
   }
