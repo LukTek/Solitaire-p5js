@@ -62,11 +62,11 @@ function card(ID, status, x, y, visible, tabL, item){
       
         } else if(this.lerpP<1){
         image(cardsImages[this.ID], lerp(this.location.x+offset.x, this.baseLocation.x, this.lerpP), lerp(this.location.y+offset.y, this.baseLocation.y, this.lerpP), this.cardSize.x, this.cardSize.y)
-        this.lerpP+=0.05
+
         
       } else{
         
-        this.lerpP = 1
+
         
 
         image(cardsImages[this.ID], this.baseLocation.x, this.baseLocation.y, lerp(-this.cardSize.x, this.cardSize.x, this.lerpR), this.cardSize.y)
@@ -93,7 +93,10 @@ function card(ID, status, x, y, visible, tabL, item){
 
   }
   this.update = function(){
+    
+    
   
+  if(this.status == 'tab'){
   move = false
       
   if(mouseIsPressed){
@@ -120,7 +123,7 @@ function card(ID, status, x, y, visible, tabL, item){
       for(let i = 0; i<7; i++){
 
         
-        if(this.location.x+this.cardSize.x/2>290+i*187&&this.location.x-this.cardSize.x/2<290+i*187){
+        if(this.location.x+this.cardSize.x/2>290+i*187&&this.location.x-this.cardSize.x/2<290+i*187&&this.location.y+this.cardSize.y/2>663){
 
             if(this.tab!=i){
 
@@ -130,8 +133,97 @@ function card(ID, status, x, y, visible, tabL, item){
               
             this.lerpP = 0
 
-            return i
+            return [i, 't']
             }
+          
+          
+      
+
+        }
+        
+      }
+      
+
+      
+      for(let i = 3; i<7; i++){
+
+        
+        if(this.location.x+this.cardSize.x/2>290+i*187&&this.location.x-this.cardSize.x/2<290+i*187){
+            this.held = false
+              
+            heldCard = true
+              
+            this.lerpP = 0
+
+            return [i, 'f']
+            }
+          
+          
+      
+
+        
+        
+      }     
+    
+      
+
+      
+      
+      
+      this.lerpP = 0
+      
+    }
+    this.held = false
+    
+  }
+
+
+        
+        
+
+      if(this.held){
+        this.location.x = mouseX/(1796*windowSize)*1796
+        this.location.y = mouseY/(1080*windowSize)*1080
+      }
+    
+    this.lastMouse = mouseIsPressed
+    
+    
+    
+    
+  } else if (status == 'foundation'){
+
+      move = false
+      
+  if(mouseIsPressed){
+
+    if(press.x>this.baseLocation.x-this.cardSize.x/2&&press.x<this.baseLocation.x+this.cardSize.x/2&&press.y>this.baseLocation.y-this.cardSize.y/2&&press.y<this.baseLocation.y+this.cardSize.y/2&&this.lastHeld!=true){
+            heldCard = true
+            this.held = true
+            offset.x = this.baseLocation.x-press.x
+            offset.y = this.baseLocation.y-press.y
+        }
+  
+  } else{
+    if(this.held){
+      
+      
+      
+      for(let i = 0; i<7; i++){
+
+        
+        if(this.location.x+this.cardSize.x/2>290+i*187&&this.location.x-this.cardSize.x/2<290+i*187){
+
+
+
+            this.held = false
+              
+            heldCard = true
+              
+            this.lerpP = 0
+
+            return i
+            
           
           
       
@@ -162,6 +254,8 @@ function card(ID, status, x, y, visible, tabL, item){
       }
     
     this.lastMouse = mouseIsPressed
+    
+  }
     
 
   }
