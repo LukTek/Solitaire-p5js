@@ -35,8 +35,9 @@ for(let i = 0; i<7; i++){
   }
 }
   
-  
-foundation[0].push(new card(1, 'tab', 290+3*187, 360, true))
+foundation[0].push(new card(5, 'foundation', 290+3*187, 360, true, 0))
+    count++
+foundation[0].push(new card(1, 'foundation', 290+3*187, 360, true, 0))
     count++
   
   
@@ -64,6 +65,9 @@ function draw() {
   
 
 
+  
+
+
 
   
 moveAr = []
@@ -73,6 +77,12 @@ moveAr = []
 
 for(let i = 0; i<7; i++){
   for(let q = tab[i].length-1; q>=0; q--){
+    
+    if(tab[i][q].lerpP<1){
+      tab[i][q].lerpP+=0.03
+    } else{
+      tab[i][q].lerpP = 1
+    }
 
     
     if(tab[i][q]){
@@ -92,6 +102,14 @@ for(let i = 0; i<7; i++){
       move = false
       
       move = tab[i][q].update()
+      
+      if(move){
+        if(move[1] == 'f'){
+          console.log(move[0], i)
+        } else{
+          move = move[0]
+        }
+      }
       
       if(heldCard==true){
         heldCard = [i, q]
@@ -195,7 +213,7 @@ tab[moveAr[f][1]][tab[moveAr[f][1]].length-1].location.x = tab[moveAr[f][0][0]][
   
 tab[moveAr[f][1]][tab[moveAr[f][1]].length-1].location.y = tab[moveAr[f][0][0]][tab[moveAr[f][0][0]].length-f-1].location.y
   
-tab[moveAr[f][1]][tab[moveAr[f][1]].length-1].lerpP = f/10
+tab[moveAr[f][1]][tab[moveAr[f][1]].length-1].lerpP = 0
   
   
 
@@ -249,8 +267,43 @@ for(let i = 0; i<7; i++){
   
 for(let i = 0; i<4; i++){
   for(let q = 0; q<foundation[i].length; q++){
+    
+    if(foundation[i][q].lerpP<1){
+      foundation[i][q].lerpP+=0.06
+    } else{
+      foundation[i][q].lerpP = 1
+    }
+    
+    
     foundation[i][q].show()
+    
+    
+    if(foundation[i].length-1 == q){
+      move = foundation[i][q].update()
+      if(move>=0&&foundation[i][q].location.y+foundation[i][q].cardSize.y/2>663){
+        
+        
+        first = foundation[i][q].ID
+        
+        sec = tab[move][tab[move].length-1].ID
+        
+
+        
+        if(first%13+1 == sec%13){
+      tab[move].push(new card(foundation[i][q].ID, 'tab', 290+move*187, 663+tab[move].length*30, true, move, tab[move].length))
+        
+        tab[move][tab[move].length-1].location.x = foundation[i][foundation[i].length-1].location.x
+        tab[move][tab[move].length-1].location.y = foundation[i][foundation[i].length-1].location.y
+        tab[move][tab[move].length-1].lerpP = 0
+
+        foundation[i].pop()
+        }
+    }
+    }
+
+
   }
+  
 }
 
 
