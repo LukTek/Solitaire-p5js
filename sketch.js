@@ -35,11 +35,7 @@ for(let i = 0; i<7; i++){
   }
 }
   
-foundation[0].push(new card(5, 'foundation', 290+3*187, 360, true, 0))
-    count++
-foundation[0].push(new card(1, 'foundation', 290+3*187, 360, true, 0))
-    count++
-  
+
   
   
   
@@ -53,7 +49,7 @@ foundation[0].push(new card(1, 'foundation', 290+3*187, 360, true, 0))
 
 }
 
-counter = 0
+
 
 function draw() {
   windowSize = windowWidth/1796
@@ -73,13 +69,18 @@ function draw() {
 moveAr = []
   
   
+foundMove = []
+  
+  
 
 
 for(let i = 0; i<7; i++){
   for(let q = tab[i].length-1; q>=0; q--){
     
+
+    
     if(tab[i][q].lerpP<1){
-      tab[i][q].lerpP+=0.1
+      tab[i][q].lerpP+=0.03
     } else{
       tab[i][q].lerpP = 1
     }
@@ -104,8 +105,15 @@ for(let i = 0; i<7; i++){
       move = tab[i][q].update()
       
       if(move){
+
         if(move[1] == 'f'){
-          console.log(move[0], i)
+          
+
+          
+          foundMove.push([i, q, move[0]])
+
+          
+  
         } else{
           move = move[0]
         }
@@ -247,7 +255,31 @@ if(moveAr.length>0){
 
   
   
+if(foundMove.length==1){
+  console.log(foundation[foundMove[0][2]-3].length+13*(foundMove[0][2]-3))
+  console.log(tab[foundMove[0][0]][tab[foundMove[0][0]].length-1].ID)
   
+  
+  if((tab[foundMove[0][0]][tab[foundMove[0][0]].length-1].ID) == (foundation[foundMove[0][2]-3].length+13*(foundMove[0][2]-3))){
+  
+  foundation[foundMove[0][2]-3].push(new card(tab[foundMove[0][0]][tab[foundMove[0][0]].length-1].ID, 'foundation', 290+foundMove[0][2]*187, 360, true, 0))
+  
+  foundation[foundMove[0][2]-3][foundation[foundMove[0][2]-3].length-1].location.x = tab[foundMove[0][0]][tab[foundMove[0][0]].length-1].location.x
+  foundation[foundMove[0][2]-3][foundation[foundMove[0][2]-3].length-1].location.y = tab[foundMove[0][0]][tab[foundMove[0][0]].length-1].location.y
+  
+  foundation[foundMove[0][2]-3][foundation[foundMove[0][2]-3].length-1].lerpP = 0
+  
+  
+  tab[foundMove[0][0]].pop()
+  tab[foundMove[0][0]][tab[foundMove[0][0]].length-1].visible = true
+
+}
+  
+} else{
+  for(let b = 0; b<foundMove.length; b++){
+    tab[foundMove[b][0]][foundMove[b][1]].held = false
+  }
+}
   
   
   
@@ -269,7 +301,7 @@ for(let i = 0; i<4; i++){
   for(let q = 0; q<foundation[i].length; q++){
     
     if(foundation[i][q].lerpP<1){
-      foundation[i][q].lerpP+=0.1
+      foundation[i][q].lerpP+=0.06
     } else{
       foundation[i][q].lerpP = 1
     }
@@ -305,6 +337,8 @@ for(let i = 0; i<4; i++){
   }
   
 }
+  
+counter = 0
 
 
 if(heldCard.length>1){
@@ -318,9 +352,15 @@ if(heldCard.length>1){
 
   }
   
+  
 
   
-  counter = tab[heldCard[0]].length-heldCard[1]-1
+
+  
+
+
+
+
 
 }
 
