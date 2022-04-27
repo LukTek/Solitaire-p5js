@@ -80,7 +80,7 @@ for(let i = 0; i<7; i++){
 
     
     if(tab[i][q].lerpP<1){
-      tab[i][q].lerpP+=0.03
+      tab[i][q].lerpP+=0.1
     } else{
       tab[i][q].lerpP = 1
     }
@@ -301,7 +301,7 @@ for(let i = 0; i<4; i++){
   for(let q = 0; q<foundation[i].length; q++){
     
     if(foundation[i][q].lerpP<1){
-      foundation[i][q].lerpP+=0.06
+      foundation[i][q].lerpP+=0.1
     } else{
       foundation[i][q].lerpP = 1
     }
