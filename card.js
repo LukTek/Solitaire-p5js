@@ -117,6 +117,10 @@ function card(ID, status, x, y, visible, tabL, item){
   }
   } else{
     if(this.held){
+      this.lerpP = 0
+      
+      
+
       
       
       
@@ -205,6 +209,7 @@ function card(ID, status, x, y, visible, tabL, item){
         }
   
   } else{
+
     if(this.held){
       
       
@@ -238,9 +243,11 @@ function card(ID, status, x, y, visible, tabL, item){
       
       
       this.lerpP = 0
+      this.held = false
       
+      return
+    
     }
-    this.held = false
     
   }
 
